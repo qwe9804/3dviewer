@@ -1,0 +1,144 @@
+	@charset "utf-8";
+
+.form-wrap > .inner { margin:10px 0 0; }
+.form-wrap > .inner:first-child { margin:0; }
+.form-wrap.__normal .ui-input { margin:0 7px 0 0; width:320px; }
+.form-wrap.__x1 .ui-input { width:240px; }
+.form-wrap.__x2 .ui-input { width:240px; }
+.form-wrap.__choice { margin:7px 0 0; }
+.form-wrap.__choice + .description { margin:5px 0 0; }
+.form-wrap.__phone .ui-input { width:72px; text-align:center; }
+.form-wrap.__phone .ui-input { margin:0 0 0 7px; }
+.form-wrap.__phone .ui-input:before { content:"-"; position:absolute; left:-10px; width:10px; line-height:32px; color:#8a8a8a; text-align:center; }
+/* .form-wrap.__phone .ui-input.__extnum:before { content:""; position:absolute; left:-10px; width:10px; line-height:32px; color:#8a8a8a; text-align:center; } */
+.form-wrap.__phone .ui-input:first-child { margin:0; }
+.form-wrap.__phone .ui-input:first-child:before { content:none; }
+.form-wrap.__phone .ui-input,
+.form-wrap.__phone .ui-input > input { text-align:center; }
+.form-wrap.__phone .ui-select + .ui-input:before { content:none; }
+.form-wrap.__phone .ui-check { margin:7px 0 0 7px; }
+.form-wrap.__phone .ui-check.__not { font-size:0.857em; white-space:nowrap; }
+
+.form-wrap.__post .inner { margin:10px 0 0; }
+.form-wrap.__post .inner:first-child { margin:0; }
+.form-wrap.__post .ui-input { width:100%; max-width:500px; }
+.form-wrap.__post .postcode > .ui-input { margin:0 0 0 7px; width:140px; }
+.form-wrap.__post .postcode > .ui-input,
+.form-wrap.__post .postcode > .ui-input>input { text-align:center; }
+.form-wrap.__date .ui-select { margin:0 0 0 7px; width:72px; }
+/* .form-wrap.__date .ui-select.__month { margin:0 0 0 7px; width:90px; } */
+.form-wrap.__date .ui-select:first-child { margin:0; }
+.form-wrap.__date .ui-input { width:72px; }
+.form-wrap.__date .ui-input + span { display:inline-block; margin:0 10px 0 5px; line-height:34px; color:#8a8a8a; vertical-align:top; }
+.form-wrap.__agreement .row { padding:15px 0; border-top:1px solid #eeeeee; }
+.form-wrap.__agreement .row:first-child { border:none; }
+.form-wrap.__agreement .row > .col-md:first-child { width:160px; color:#8a8a8a;}
+.form-wrap.__agreement .status > table { width:100%; }
+.form-wrap.__agreement .status th,
+.form-wrap.__agreement .status td { padding:20px 0; color:#8a8a8a; text-align:center; border-top:1px solid #eeeeee; }
+.form-wrap.__agreement .status thead th,
+.form-wrap.__agreement .status thead td { border-top:none; }
+.form-wrap.__agreement .status tbody th { text-align:left; }
+.form-wrap.__agreement .detail { float:right; text-decoration:underline; }
+
+.postcode-finder .categories > button { display:inline-block; margin:0 0 0 20px; font-size:18px;line-height:1.5; }
+.postcode-finder .categories > button:first-child { margin:0; }
+.postcode-finder .categories > button.active { border-bottom:2px solid #0092fa;color:#0092fa}
+.postcode-finder .postcode-wrap { display:none; }
+.postcode-finder .postcode-wrap.active { display:block; }
+.postcode-finder .postcode-wrap .hidden-content button {width:100%;text-align:left;padding: 3px 0;border-bottom: 1px solid #ebebeb;}
+.postcode-finder .postcode-wrap .description > p{margin:0; padding : 0 0 10px 0;}
+.postcode-finder .postcode-wrap .description > p:before {display:none;}
+
+
+/* .postcode-finder .__step1 { margin:20px 0 0; padding:0 0 20px; border-bottom:1px solid #ebebeb; }
+.postcode-finder .__step2 { margin:20px 0 0; padding:0 0 20px; border-bottom:1px solid #ebebeb; }
+.postcode-finder .__step3 { margin:20px 0 0; }
+.postcode-finder .__step3 > .button-wrap { margin:20px 0 0; } */
+.postcode-finder .__step { display:none; margin:20px 0 0; padding:0 0 20px; border-bottom:1px solid #ebebeb; }
+.postcode-finder .__step.__none { padding:0; border:none; }
+.postcode-finder .__step.active { display:block; }
+.postcode-finder .__step > .button-wrap { margin:20px 0 0; }
+.postcode-finder .row {margin:5px 0px;}
+
+.postcode-finder .row > div {padding:0 4px;}
+.postcode-finder .row .ui-select,
+.postcode-finder .row .ui-input,
+.postcode-finder .row .ui-button { width:100%; min-width:auto; }
+.postcode-finder .no-data { line-height:200px; text-align:center; }
+.postcode-finder .row-list { margin:2px; }
+.postcode-finder .row-list .labels {position:relative;display:inline-block;padding:0 31px 0 0;width:150px;color:#8a8a8a;}
+.postcode-finder .row-list .labels:before { content:""; position:absolute; right:15px; top:50%; margin:-6px 0 0; width:1px; height:12px; background-color:#d0d0d0; }
+
+@media only screen and (min-width:426px) and (max-width:1024px){ /* 타블렛 */
+  .postcode-finder { left:0; top:0; width:100%; border:0; }
+}
+
+@media only screen and (max-width:426px){ /* 모바일 */
+  /* .form-wrap { flex-basis:100%; -webkit-flex-basis:100%; } */
+  .form-wrap { flex-basis:100%; -webkit-flex-basis:100%; flex-wrap:wrap; -webkit-flex-wrap:wrap; }
+  .form-wrap > .inner { display:flex; display:-webkit-flex; flex-basis:100%; -webkit-flex-basis:100%; justify-content:space-between; -webkit-justify-content:space-between; }
+  .form-wrap.__normal .ui-input { margin:0; width:100%; }
+  /* .form-wrap.__x1 { display:flex; display:-webkit-flex; }
+  .form-wrap.__x1 .ui-input { flex-basis:75%; -webkit-flex-basis:75%; width:auto; }
+  .form-wrap.__x1 .ui-button { margin:0 0 0 7px; flex-basis:25%; -webkit-flex-basis:25%; }
+  .form-wrap.__x2 { display:flex; display:-webkit-flex; } */
+  .form-wrap.__x1 { display:flex; display:-webkit-flex; justify-content:space-between; -webkit-justify-content:space-between; }
+  .form-wrap.__x1 .ui-input { flex-basis:75%; -webkit-flex-basis:75%; }
+  .form-wrap.__x1 .ui-button { margin:0; flex-basis:24%; -webkit-flex-basis:24%; }
+  .form-wrap.__x2 { display:flex; display:-webkit-flex; justify-content:space-between; -webkit-justify-content:space-between; }
+  .form-wrap.__x2 .ui-input { flex-basis:50%; -webkit-flex-basis:50%; }
+  /*.form-wrap.__x2 .ui-input .timer { position:absolute; left:0; right:auto; top:35px; line-height:1.2; }*/
+  /* .form-wrap.__x2 .ui-button { margin:0 0 0 7px; flex-basis:25%; -webkit-flex-basis:25%; } */
+  .form-wrap.__x2 .ui-button { flex-basis:24%; -webkit-flex-basis:24%; }
+  .form-wrap.__choice { display:block; margin:7px 0 0; width:100%; }
+  /* .form-wrap.__mobile { display:flex; display:-webkit-flex; } */
+  .form-wrap.__mobile { display:flex; display:-webkit-flex; justify-content:space-between; -webkit-justify-content:space-between; }
+  .form-wrap.__mobile .ui-select,
+  /* .form-wrap.__mobile .ui-input { margin:0 0 0 10px; width:auto; flex-basis:25%; -webkit-flex-basis:25%; }
+  .form-wrap.__mobile .ui-select { margin:0; } */
+  .form-wrap.__mobile .ui-input { margin:0; flex-basis:24%; -webkit-flex-basis:24%; }
+  .form-wrap.__mobile .ui-input:before { content:none; }
+  .form-wrap.__mobile.__x3 .ui-input,
+  .form-wrap.__mobile.__x3 .ui-select { margin:0; flex-basis:32%; -webkit-flex-basis:32%; }
+  .form-wrap.__mobile.__x4 .ui-input,
+  .form-wrap.__mobile.__x4 .ui-select { margin:0; flex-basis:24%; -webkit-flex-basis:24%; }
+  .form-wrap.__mobile.__x4 >button{ margin:0;}
+  .form-wrap.__phone { display:flex; display:-webkit-flex; justify-content:space-between; -webkit-justify-content:space-between; }
+  .form-wrap.__phone .ui-select,
+  .form-wrap.__phone .ui-input { margin:0; flex-basis:32%; -webkit-flex-basis:32%;  }
+  .form-wrap.__phone .ui-input:before { content:none; }
+  .form-wrap.__phone .ui-check { margin:7px 0 0 7px; }
+  .form-wrap.__post .inner { justify-content:normal; -webkit-justify-content:normal;}
+  .form-wrap.__post .ui-input { width:100%; }
+  .form-wrap.__post .postcode > .ui-input,
+  .form-wrap.__post .postcode > .ui-input>input { text-align:center; }
+/*   .form-wrap.__license { display:flex; display:-webkit-flex; }
+  .form-wrap.__license .ui-input { margin:0 0 0 10px; width:auto; flex-basis:33.333333%; -webkit-flex-basis:33.333333%;  }
+  .form-wrap.__date { display:flex; display:-webkit-flex; }
+  .form-wrap.__date .ui-select { width:auto; flex-basis:33.333333%; -webkit-flex-basis:33.333333%; } */
+  .form-wrap.__license { display:flex; display:-webkit-flex; justify-content:space-between; -webkit-justify-content:space-between; }
+  .form-wrap.__license .ui-input { margin:0; flex-basis:32%; -webkit-flex-basis:32%;  }
+  .form-wrap.__license .ui-input:before { content:none; }
+  .form-wrap.__date { display:flex; display:-webkit-flex; justify-content:space-between; -webkit-justify-content:space-between; }
+  .form-wrap.__date .ui-select { margin:0; flex-basis:32%; -webkit-flex-basis:32%; }
+  .form-wrap.__date .ui-select:first-child { margin:0; }
+  .form-wrap.__agreement .row { padding:12px 0; border:none; }
+  .form-wrap.__agreement .row:first-child { border:none; }
+  .form-wrap.__agreement .row > .col-md { display:block; width:auto; }
+  .form-wrap.__agreement .row > .col-md:first-child { padding:5px 0; width:auto; }
+  .postcode-finder { left:0; right:0; top:0; bottom:0; padding:0; width:100%; border:0; }
+
+  .postcode-finder .postcode-wrap .hidden-content button > span{ display: block;}
+  .postcode-finder .postcode-wrap .hidden-content .row > div{display: block;}
+  .postcode-finder .postcode-wrap .hidden-content .row > .col-md-2, .postcode-finder .postcode-wrap .hidden-content .row > .col-md-10{width:100%;}
+  .postcode-finder .row-list .labels {position:relative;display:block;padding:0 31px 0 0;width:150px;color:#8a8a8a;}
+  .postcode-finder .row-list .labels:before {display:none;}
+
+
+}
+
+@media only screen and (max-width:320px){ /* 320px 이하 대응 */
+  .postcode-finder .row { margin:5px -2px; }
+  .postcode-finder .row > div { padding:0 1px; }
+}
