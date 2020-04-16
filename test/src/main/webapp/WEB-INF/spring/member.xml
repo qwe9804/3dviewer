@@ -26,7 +26,10 @@
         <put-attribute name="title" value="회원 조희" ></put-attribute> 
         <put-attribute name="body" value="/WEB-INF/views/test5.jsp" /> 
 </definition>
-   
+<definition name="/test11" extends="main"> 
+        <put-attribute name="title" value="회원 조희" ></put-attribute> 
+        <put-attribute name="body" value="/WEB-INF/views/test11.jsp" /> 
+</definition>   
 
    
 </tiles-definitions>

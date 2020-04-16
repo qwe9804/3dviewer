@@ -62,7 +62,7 @@
 		// container 개념  무언갈 담을수 있는 공간
 		var scene = new THREE.Scene();
 		// 신 에서 보여주는 것 (시야 화면에 표시되는 범위, 종횡비 , 근거리  , 원거리/ 카메라에서 멀거나 가까운 값보다 가까운 거리에 있는 물체는 렌더링 안됨)
-		var camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight,0.1, 3500); 
+		var camera = new THREE.PerspectiveCamera(15, window.innerWidth / window.innerHeight,0.1, 3500); 
 		camera.position.x = 0.4;
 		camera.position.z = 2;
 		camera.up.set( 0, 0, 1 );
@@ -80,6 +80,41 @@
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth,window.innerHeight);
 		}
+		//축
+// 		var axes = new THREE.AxesHelper(20); 
+		
+		//면
+	/*	var planeGeometry = new THREE.PlaneGeometry(60, 40,1,1); 
+		var planeMaterial = new THREE.MeshLambertMaterial({color:   0xffffff});  //basic = 기본색 유지 Lambert = 랜더링될떄 light 고려 
+		var plane = new THREE.Mesh(planeGeometry, planeMaterial); 
+		plane.rotation.x = -0.5 * Math.PI; 
+		plane.position.set(0, 0, 0); 
+
+
+		//큐브형태
+		var cubeGeometry = new THREE.BoxGeometry(4,4,4);
+		var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x00ff00});
+		var cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
+		cube.position.set(-4,3,0);
+
+		
+		//구
+		
+		var sphereGeometry = new THREE.SphereGeometry(4,20,20);
+		var sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff });
+		var sphere = new THREE.Mesh(sphereGeometry,sphereMaterial);
+		sphere.position.set(20,4,2);
+		
+
+
+
+		//빛 shadow 그림자
+		var spotLight = new THREE.SpotLight(0xffffff);
+		spotLight.position.set(-40,60,-15);
+		spotLight.castShadow = true; //그림자 설정 true
+		spotLight.shadow.mapSize = new THREE.Vector2(1024,1024);
+		spotLight.shadow.camera.far=130;
+		spotLight.shadow.camera.near-40;*/
 		
 		var particles = 100;
 		
@@ -88,9 +123,6 @@
 		var positions = [];
 		var colors = [];
 		var text2 = ${list};
-		var red = ${red};
-		var green = ${green};
-		var blue = ${blue};
 		var color = new THREE.Color();
 		alert(text2.length);
 		var xx = new Array();
@@ -103,9 +135,16 @@
 			yy.push(i);
 
  		
-
+// 		var z=0;
 		var n = 1000, n2 = n / 2; // particles spread in the cube
+	//	for(var e=0;e<text.length;e++){
+// 			x[e];
 
+// 			y[e];
+// 			z = text[e];		
+
+	
+// 		for ( var i = 0,e = 0,d=0; i < text.length; i++) {
 			// positions
 				var e = 0;
 				var d = 0;
@@ -120,14 +159,19 @@
  						var x = xx[d] ;
  						var y = yy[e];
  						var z = text2[i];
-
+						
+// 						var x = Math.random() * n - n2;
+// 						var y = Math.random() * n - n2;
+// 						var z = Math.random() * n - n2;
 
 						positions.push(x,y,z);
 						
+// 	alert(x+"--"+y+"--"+z+"--"+xx.length+"--"+yy.length+"--"+d+"--"+e);
+
 						
-							var vx = red[i]/100;//( x / n ) + 0.5;
-							var vy = green[i]/100;//( y / n ) + 0.5;
-							var vz = blue[i]/100;//( z / n ) + 0.5;
+							var vx = ( x / n ) + 0.5;
+							var vy = ( y / n ) + 0.5;
+							var vz = ( z / n ) + 0.5;
 					
 							color.setRGB( vx, vy, vz );
 							
@@ -144,9 +188,23 @@
 				default:
 					break;
 				}
+				
+// 				var x = xx[e];//Math.random() * n - n2;
+				
+				
+// 				var y = yy[d];//Math.random() * n - n2;
+				
+// 				var z = text[i];//Math.random() * n - n2;
+			
+			
+// 			positions.push( x, y, z );
+			
+			// colors
 
-				alert(color.r+"--"+color.g+"--"+color.b);
-				alert(colors);
+
+
+// 		}
+	
 		geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions,3) );
 		geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 
@@ -154,7 +212,7 @@
 		
 		//
 
-		var material = new THREE.PointsMaterial( { size:0.001, vertexColors: true } );
+		var material = new THREE.PointsMaterial( { size:0.01, vertexColors: true } );
 		
 		
 		
@@ -163,7 +221,18 @@
 		
 		//
 		
-
+		
+		//그림자 허용
+// 	/*	sphere.castShadow = true;
+// 		cube.castShadow = true;
+// 		plane.castShadow = true;
+// 		plane.receiveShadow = true;// 받는 그림자
+// 		//추가
+// 		scene.add(spotLight); //신에 추가
+// 	scene.add(axes);
+// 		scene.add(plane);
+// 		scene.add(cube);
+// 		scene.add(sphere);*/
 		scene.add(points);
 		
 		//클래스 역할

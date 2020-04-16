@@ -2,10 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-
 <%
-
 	pageContext.setAttribute("replace", "\\n");
 %>
 
@@ -32,38 +29,28 @@
 <body>
 	<div class="container">
 		<h1 class="col-sm-offset-2 col-sm-10">데이터보내기</h1>
-		<form class="form-horizontal" action="test" method="post"
+		<form class="form-horizontal" action="test11" method="post"
 			enctype="multipart/form-data">
-
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="filename">3D파일</label>
+				<label class="control-label col-sm-2" for="fname">원본파일</label>
+<!-- 				<div class="col-sm-6"> -->
+<!-- 					<div> -->
+
+
+<!-- 						<textarea style="width: 500px; height: 500px;" id="output" -->
+<!-- 							name="output"></textarea> -->
+
+<!-- 					</div> -->
+
+<!-- 				</div> -->
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="filename">파일</label>
 				<div class="col-sm-6">
 					<input type="file" class="form-control" id="filename"
 						name="filename">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="red">R파일</label>
-				<div class="col-sm-6">
-					<input type="file" class="form-control" id="red"
-						name="red">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="green">G파일</label>
-				<div class="col-sm-6">
-					<input type="file" class="form-control" id="green"
-						name="green">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="blue">B파일</label>
-				<div class="col-sm-6">
-					<input type="file" class="form-control" id="blue"
-						name="blue">
-				</div>
-			</div>
-			
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="fname">file</label>
 				<div class="col-sm-6">
