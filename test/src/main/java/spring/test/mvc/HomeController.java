@@ -7,6 +7,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,6 +65,60 @@ public class HomeController {
 		
 		return "test";
 	}
+	@GetMapping(value="/test3")
+	public String test3() {
+		
+		return "test3";
+	}
+	
+	@PostMapping(value = "/test3")
+	public String test3(HttpServletRequest request,MultipartHttpServletRequest mre) {
+		String text = request.getParameter("output");
+		MultipartFile mf = mre.getFile("filename");
+		MultipartFile rmf = mre.getFile("red");
+		MultipartFile bmf = mre.getFile("blue");
+		MultipartFile gmf = mre.getFile("green");
+		String uploadPath = "";
+		
+		String path = "D:\\"+"oin\\"+"uploadfile\\";
+		String ori = mf.getOriginalFilename();
+		String red = rmf.getOriginalFilename();
+		String blue = bmf.getOriginalFilename();
+		String green = gmf.getOriginalFilename();
+	
+		Path path2 = Paths.get("D:\\"+"oin\\"+"uploadfile\\"+ori);
+		 Charset cs = StandardCharsets.UTF_8;
+		 System.out.println(path2);
+		List<String> listTest = new ArrayList<String>();
+
+		int i = 0;
+		int r = 0;
+		int g = 0;
+		int b = 0;
+		try {
+	
+			listTest = Files.readAllLines(path2,cs);
+
+
+			while(r>1920) {
+				
+				listTest.set(r,listTest.get(r).replaceAll("NaN", ""));
+				listTest.set(r,listTest.get(r).replaceAll("nan", ""));
+				listTest.set(r,listTest.get(r).replaceAll("\\r?\\n?\\s", ","));
+				r++;
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO: handle exception
+		}			
+			
+		request.setAttribute("list", listTest);
+		
+		return "test";
+	}
 	
 	@PostMapping(value="/test")
 	public String Ptest(HttpServletRequest request,MultipartHttpServletRequest mre) {
@@ -69,7 +128,7 @@ public class HomeController {
 		MultipartFile bmf = mre.getFile("blue");
 		MultipartFile gmf = mre.getFile("green");
 		String uploadPath = "";
-		String path = "E:\\"+"oin\\"+"uploadfile\\";
+		String path = "D:\\"+"oin\\"+"uploadfile\\";
 		String ori = mf.getOriginalFilename();
 		String red = rmf.getOriginalFilename();
 		String blue = bmf.getOriginalFilename();

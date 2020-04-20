@@ -38,7 +38,8 @@
 	
 	function init(){
 		window.addEventListener('resize',onResize,false);
-
+	var width = 1920; // 가로
+	var height = 1080; // 세로
 		//트랙볼 초기화 함수
 		function initTrackballControls(camera, renderer) {
 				var trackballControls = new THREE.TrackballControls(camera, renderer.domElement);
@@ -92,16 +93,18 @@
 		var green = ${green};
 		var blue = ${blue};
 		var color = new THREE.Color();
-		alert(text2.length);
+		var text2length = text2.length;
 		var xx = new Array();
-		var yy = new Array();
 		
-		for(var i=0; i<2160;i++){
-			xx.push(i);
+		var yy = new Array();
+		for(var i=0; i<width;i++){
+			xx.push(i/10);
 		}
-		for(var i=0;i<1920;i++)
-			yy.push(i);
-
+		for(var i=0;i<height;i++){
+			yy.push(i/10);
+		}
+		var xxlength = xx.length;
+		var yylength = yy.length;
  		
 
 		var n = 1000, n2 = n / 2; // particles spread in the cube
@@ -111,9 +114,9 @@
 				var d = 0;
 				switch (e) {
 				case 0:
-					for(var i = 0;i<text2.length;i++){
+					for(var i = 0;i<text2length;i++){
 						
-						if(d==xx.length){
+						if(d==xxlength){
 							++e;	
 							d=0;
 						};
@@ -125,15 +128,15 @@
 						positions.push(x,y,z);
 						
 						
-							var vx = red[i]/100;//( x / n ) + 0.5;
-							var vy = green[i]/100;//( y / n ) + 0.5;
-							var vz = blue[i]/100;//( z / n ) + 0.5;
+							var vx = (251/1000)+0.5;//red[i]/100;//( x / n ) + 0.5;
+							var vy = (206/1000)+0.5;//green[i]/100;//( y / n ) + 0.5;
+							var vz = (177/1000)+0.5;//blue[i]/100;//( z / n ) + 0.5;
 					
 							color.setRGB( vx, vy, vz );
 							
 							colors.push( color.r, color.g, color.b );						
 						
-						if(e==yy.length){
+						if(e==yylength){
 							e=0;
 							break;
 						}
@@ -145,8 +148,7 @@
 					break;
 				}
 
-				alert(color.r+"--"+color.g+"--"+color.b);
-				alert(colors);
+
 		geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions,3) );
 		geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 
@@ -154,7 +156,7 @@
 		
 		//
 
-		var material = new THREE.PointsMaterial( { size:0.001, vertexColors: true } );
+		var material = new THREE.PointsMaterial( { size:0.00001, vertexColors: true } );
 		
 		
 		

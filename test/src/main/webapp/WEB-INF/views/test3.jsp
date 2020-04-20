@@ -26,13 +26,13 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-var list[] = ${list};
+	var list[] = ${list};
 </script>
 </head>
 <body>
 	<div class="container">
 		<h1 class="col-sm-offset-2 col-sm-10">데이터보내기</h1>
-		<form class="form-horizontal" action="test" method="post"
+		<form class="form-horizontal" action="test3" method="post"
 			enctype="multipart/form-data">
 
 			<div class="form-group">
