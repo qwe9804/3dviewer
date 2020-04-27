@@ -8,7 +8,8 @@
 <html>
 <head>    
   <title>Example 01.01 - Basic skeleton</title>   
-  <meta charset="UTF-8" />    
+  <meta charset="UTF-8" />   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <script  src="${root }/js/three.js"></script>    
   <script src="${root }/js/TrackballControls.js"></script>   
   <script src="${root }/js/stats.js"></script>
@@ -20,7 +21,9 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-	
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+
   <script type="text/javascript">
   	
   	
@@ -52,22 +55,24 @@
 				trackballControls.staticMoving = true;
 				trackballControls.dynamicDampingFactor = 0.3;
 				trackballControls.keys = [65, 83, 68];
-				var center = points.geometry.boundingSphere.center;
-				trackballControls.target.set( center.x, center.y, center.z );
+ 				var center = line.geometry.boundingSphere.center;
+ 				trackballControls.target.set( center.x, center.y, center.z );
 				trackballControls.update();
 			return trackballControls;
 		}
 
 
-
 		// container 개념  무언갈 담을수 있는 공간
 		var scene = new THREE.Scene();
 		// 신 에서 보여주는 것 (시야 화면에 표시되는 범위, 종횡비 , 근거리  , 원거리/ 카메라에서 멀거나 가까운 값보다 가까운 거리에 있는 물체는 렌더링 안됨)
-		var camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight,0.1, 3500); 
-		camera.position.x = 0.4;
-		camera.position.z = 2;
-		camera.up.set( 0, 0, 1 );
+		var camera = new THREE.PerspectiveCamera(22, window.innerWidth / window.innerHeight,0.1, 3500); 
+// 		var camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 3500 );
 		
+// 		camera.position.x = 10;
+ 		camera.position.z = 10;
+		camera.position.y = 10;
+		camera.up.set( 0, 1, 0);
+	
 		//GPU 를 이용 
 		var renderer = new THREE.WebGLRenderer(); 
 		//랜더링 
@@ -81,9 +86,7 @@
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth,window.innerHeight);
 		}
-		
-		var particles = 100;
-		
+			
 		var geometry = new THREE.BufferGeometry();
 
 		var positions = [];
@@ -97,10 +100,12 @@
 		var xx = new Array();
 		
 		var yy = new Array();
-		for(var i=0; i<width;i++){
+		alert(text2.length);
+		for(var i=1919; i>=0;i--){
 			xx.push(i/10);
+			
 		}
-		for(var i=0;i<height;i++){
+		for(var i=1079;i>=0;i--){
 			yy.push(i/10);
 		}
 		var xxlength = xx.length;
@@ -123,18 +128,21 @@
  						var x = xx[d] ;
  						var y = yy[e];
  						var z = text2[i];
-
-
+						if(z != 0){
 						positions.push(x,y,z);
-						
-						
-							var vx = (251/1000)+0.5;//red[i]/100;//( x / n ) + 0.5;
-							var vy = (206/1000)+0.5;//green[i]/100;//( y / n ) + 0.5;
-							var vz = (177/1000)+0.5;//blue[i]/100;//( z / n ) + 0.5;
-					
-							color.setRGB( vx, vy, vz );
+						if(red[i] != null){
+						var vx = red[i]/1000;//(251/1000)+0.5;red[i]/100;( x / n ) + 0.5;
+						var vy = green[i]/1000;//(206/1000)+0.5;green[i]/100;( y / n ) + 0.5;
+						var vz = blue[i]/1000;//(177/1000)+0.5;blue[i]/100;( z / n ) + 0.5;
+						}else{
+						var vx = 251/1000;
+						var vy = 206/1000;
+						var vz = 177/1000;
+						}
+						color.setRGB( vx, vy, vz);
 							
-							colors.push( color.r, color.g, color.b );						
+						colors.push( color.r, color.g, color.b );
+						}
 						
 						if(e==yylength){
 							e=0;
@@ -156,56 +164,19 @@
 		
 		//
 
-		var material = new THREE.PointsMaterial( { size:0.00001, vertexColors: true } );
+// 		var material = new THREE.PointsMaterial( { size:0.1, vertexColors: true ,sizeAttenuation:false,lights:false} );
 		
+		var material = new THREE.LineBasicMaterial( { linewidth:0.01,vertexColors: true } );
 		
-		
-		points = new THREE.Points( geometry, material );
-		scene.add( points );
-		
+// 		points = new THREE.Points( geometry, material );
+// 		scene.add( points );
+		var line = new THREE.Line( geometry, material );
+		scene.add( line );
 		//
 		
 
-		scene.add(points);
 		
 		//클래스 역할
-		var controls = new function(){
-			this.rotationSpeed = 0.1;
-			this.bouncingSpeed = 0.2;
-			  this.numberOfObjects = scene.children.length;
-
-			  this.removeCube = function(){
-
-			   var allChildren = scene.children;
-
-			   var lastObject = allChildren[allChildren.length-1]
-
-			   if(lastObject instanceof THREE.Mesh){
-
-			     scene.remove(lastObject);
-
-			     this.numberOfObjects = scene.children.length;
-
-			  }
-
-			 };
-			 this.addCube = function () {
-				 
-				var cubeSize = Math.ceil((Math.random()*500));
-				var cubeGeometry = new THREE.BoxGeometry(cubeSize,cubeSize,cubeSize);
-				var cubeMaterial = new THREE.MeshLambertMaterial({color:0xffffff*Math.random()})
-				var cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
-				cube.castShadow = true;
-				cube.name = "cube-"+scene.children.length;
-				cube.position.x = -10+Math.round((Math.random()*planeGeometry.parameters.width))
-				cube.position.y = Math.round((Math.random()*5));
-				cube.position.z = -20 + Math.round((Math.random()*planeGeometry.parameters.height));
-				scene.add(cube);
-				this.numberOfObjects = scene.children.length;
-			};
-			
-			
-		}
 		  class MinMaxGUIHelper {
 			    constructor(obj, minProp, maxProp, minDif) {
 			      this.obj = obj;
@@ -232,36 +203,31 @@
 			    camera.updateProjectionMatrix();
 			  }
 		var gui = new dat.GUI();
-// 		gui.add(controls,'rotationSpeed',0,0.5);
-// 		gui.add(controls,'bouncingSpeed',0,0.5);
-		gui.add(controls,'removeCube');
-// 		gui.add(controls,'addCube');
-// 		camera.position.set(100, 100, 10);
+		
 		gui.add(camera, 'fov', 1, 180).onChange(updateCamera);
 		  var minMaxGUIHelper = new MinMaxGUIHelper(camera, 'near', 'far', 0.1);
 		  gui.add(minMaxGUIHelper, 'min', 0.1, 50, 0.1).name('near').onChange(updateCamera);
 		  gui.add(minMaxGUIHelper, 'max', 0.1, 5000, 0.1).name('far').onChange(updateCamera);
 		  
 		document.getElementById("webgl-output").appendChild(renderer.domElement);
+// 		var center = points.geometry.boundingSphere.center;
 		var trackballControls = initTrackballControls(camera,renderer); //초기화
+//         var controls = new THREE.OrbitControls(camera,renderer.domElement);
+// 	        controls.rotateSpeed = 1.0; // 마우스로 카메라를 회전시킬 속도입니다. 기본값(Float)은 1입니다.
+// 	        controls.zoomSpeed = 1.2; // 마우스 휠로 카메라를 줌 시키는 속도 입니다. 기본값(Float)은 1입니다.
+// 	        controls.panSpeed = 0.8; // 패닝 속도 입니다. 기본값(Float)은 1입니다.
+// 	        controls.minDistance = 5; // 마우스 휠로 카메라 거리 조작시 최소 값. 기본값(Float)은 0 입니다.
+// 	        controls.maxDistance = 100; // 마우스 휠로 카메라 거리 조작시 최대 값. 기본값(Float)은 무제한 입니다.
+//  			controls.target.set(center.x,center.y,center.z);
+			
+	
 		var clock = new THREE.Clock();
 		renderScene();
 		var step = 0;
 		function renderScene(){
 			trackballControls.update(clock.getDelta());//화면 전환 
-// 			cube.rotation.x += controls.rotationSpeed;//클래스 이용 속도 변환 라이브러리
-// 			cube.rotation.y += controls.rotationSpeed;
-// 			cube.rotation.z += controls.rotationSpeed;
-
+// 			controls.update(clock.getDelta());
 			
-// 			step += controls.bouncingSpeed;
-
-// 			cube.position.x = 3+(4*Math.cos(step));
-// 			cube.position.y=2+(5*Math.abs(Math.sin(step)));
-
-// 			sphere.position.x = 20+10*Math.cos(step);
-// 			sphere.position.y = 2+10 * Math.abs(Math.sin(step));
-
 			requestAnimationFrame(renderScene); // 애니메이션
 
 			renderer.render(scene, camera); 

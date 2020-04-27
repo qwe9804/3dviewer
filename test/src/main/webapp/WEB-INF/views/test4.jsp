@@ -8,8 +8,7 @@
 <html>
 <head>    
   <title>Example 01.01 - Basic skeleton</title>   
-  <meta charset="UTF-8" />   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <meta charset="UTF-8" />    
   <script  src="${root }/js/three.js"></script>    
   <script src="${root }/js/TrackballControls.js"></script>   
   <script src="${root }/js/stats.js"></script>
@@ -55,7 +54,7 @@
 				trackballControls.staticMoving = true;
 				trackballControls.dynamicDampingFactor = 0.3;
 				trackballControls.keys = [65, 83, 68];
- 				var center = line.geometry.boundingSphere.center;
+ 				var center = points.geometry.boundingSphere.center;
  				trackballControls.target.set( center.x, center.y, center.z );
 				trackballControls.update();
 			return trackballControls;
@@ -91,22 +90,27 @@
 
 		var positions = [];
 		var colors = [];
-		var text2 = [${z}];
-		var red = [${r}];
-		var green = [${g}];
-		var blue = [${b}];
+		var text2 = ${list};
+		var red = ${red};
+		var green = ${green};
+		var blue = ${blue};
 		var color = new THREE.Color();
 		var text2length = text2.length;
 		var xx = new Array();
 		
 		var yy = new Array();
-		alert(text2.length);
+		var value = 5;
+		
+// 		   for (var i = 1080; i >= 0; i--) {
+// 			      alert(i + ", ");
+// 			    }
+		
 		for(var i=1919; i>=0;i--){
-			xx.push(i/10);
+			xx.push(i/20);
 			
 		}
 		for(var i=1079;i>=0;i--){
-			yy.push(i/10);
+			yy.push(i/20);
 		}
 		var xxlength = xx.length;
 		var yylength = yy.length;
@@ -128,21 +132,18 @@
  						var x = xx[d] ;
  						var y = yy[e];
  						var z = text2[i];
-						if(z != 0){
+
+
 						positions.push(x,y,z);
-						if(red[i] != null){
-						var vx = red[i]/1000;//(251/1000)+0.5;red[i]/100;( x / n ) + 0.5;
-						var vy = green[i]/1000;//(206/1000)+0.5;green[i]/100;( y / n ) + 0.5;
-						var vz = blue[i]/1000;//(177/1000)+0.5;blue[i]/100;( z / n ) + 0.5;
-						}else{
-						var vx = 251/1000;
-						var vy = 206/1000;
-						var vz = 177/1000;
-						}
-						color.setRGB( vx, vy, vz);
+						
+						
+							var vx = red[i]/1000;//( x / n ) + 0.5;
+							var vy = green[i]/1000;//( y / n ) + 0.5;
+							var vz = blue[i]/1000;//( z / n ) + 0.5;
+					
+							color.setRGB( vx, vy, vz );
 							
-						colors.push( color.r, color.g, color.b );
-						}
+							colors.push( color.r, color.g, color.b );						
 						
 						if(e==yylength){
 							e=0;
@@ -164,14 +165,14 @@
 		
 		//
 
-// 		var material = new THREE.PointsMaterial( { size:0.1, vertexColors: true ,sizeAttenuation:false,lights:false} );
+		var material = new THREE.PointsMaterial( { size:0.1, vertexColors: true ,sizeAttenuation:false,lights:false} );
 		
-		var material = new THREE.LineBasicMaterial( { linewidth:0.01,vertexColors: true } );
+// 		var material = new THREE.LineBasicMaterial( { linewidth:0.01,vertexColors: true,linecap:'round',linejoin:'round' } );
 		
-// 		points = new THREE.Points( geometry, material );
-// 		scene.add( points );
-		var line = new THREE.Line( geometry, material );
-		scene.add( line );
+		points = new THREE.Points( geometry, material );
+		scene.add( points );
+// 		var line = new THREE.Line( geometry, material );
+// 		scene.add( line );
 		//
 		
 

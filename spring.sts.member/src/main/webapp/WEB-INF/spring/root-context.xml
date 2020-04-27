@@ -38,9 +38,9 @@
 	<!-- 데이터베이스 접속 설정 -->
 	<bean id="dataSource" destroy-method="close"
 		class="org.apache.commons.dbcp.BasicDataSource"
-		p:driverClassName="oracle.jdbc.driver.OracleDriver"
-		p:url="jdbc:oracle:thin:@172.16.81.2:1521:XE" p:username="smsd"
-		p:password="1234" />
+		p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://35.201.252.133:3306/haanvision" p:username="root"
+		p:password="haan" />
 
 	<!-- MyBatis SQL 실행 클래스 -->
 	<bean id="sqlSessionFactory"

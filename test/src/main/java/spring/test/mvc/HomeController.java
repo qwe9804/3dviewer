@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,11 +36,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.ReadChannel;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+
 /**
  * Handles requests for the application home page.
  */
+
+
 @Controller
 public class HomeController {
+	
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -66,8 +80,40 @@ public class HomeController {
 		return "test";
 	}
 	@GetMapping(value="/test3")
-	public String test3() {
+	public String test3(HttpServletRequest re) throws FileNotFoundException, IOException {
+		String jsonPath = "D:\\GCP\\woven-arcadia-275102-b91e1cf60783.json";
+		Credentials credentials;
 		
+		credentials = GoogleCredentials. fromStream(new FileInputStream(jsonPath));
+
+	
+	Storage storage = StorageOptions.newBuilder().setCredentials(credentials)
+			.setProjectId("woven-arcadia-275102").build().getService();
+	String bucketName = "haanstorage2";
+	
+	
+	Blob blobZ = storage.get(BlobId.of(bucketName, "3d(64).txt"));
+	Blob blobR1 = storage.get(BlobId.of(bucketName, "R1.txt"));
+	Blob blobG1 = storage.get(BlobId.of(bucketName, "G1.txt"));
+	Blob blobB1 = storage.get(BlobId.of(bucketName, "B1.txt"));
+	
+	String Z = new String(blobZ.getContent());
+	String R = new String(blobR1.getContent());
+	String G = new String(blobG1.getContent());
+	String B = new String(blobB1.getContent());
+	Z = Z.replaceAll("NaN", "0");
+	Z = Z.replaceAll("\\r?\\n?\\s", ",");
+	R = R.replaceAll("\\r?\\n?\\s", ",");
+	G = G.replaceAll("\\r?\\n?\\s", ",");
+	B = B.replaceAll("\\r?\\n?\\s", ",");
+	
+	
+	re.setAttribute("z", Z);
+	re.setAttribute("r", R);
+	re.setAttribute("g", G);
+	re.setAttribute("b", B);
+	
+	
 		return "test3";
 	}
 	
@@ -79,45 +125,92 @@ public class HomeController {
 		MultipartFile bmf = mre.getFile("blue");
 		MultipartFile gmf = mre.getFile("green");
 		String uploadPath = "";
-		
 		String path = "D:\\"+"oin\\"+"uploadfile\\";
 		String ori = mf.getOriginalFilename();
 		String red = rmf.getOriginalFilename();
 		String blue = bmf.getOriginalFilename();
 		String green = gmf.getOriginalFilename();
-	
-		Path path2 = Paths.get("D:\\"+"oin\\"+"uploadfile\\"+ori);
-		 Charset cs = StandardCharsets.UTF_8;
-		 System.out.println(path2);
-		List<String> listTest = new ArrayList<String>();
-
-		int i = 0;
-		int r = 0;
-		int g = 0;
-		int b = 0;
+		
 		try {
-	
-			listTest = Files.readAllLines(path2,cs);
+			mf.transferTo(new File(path+ori));
+			mf.transferTo(new File(path+red));
+			mf.transferTo(new File(path+green));
+			mf.transferTo(new File(path+blue));
+		} catch (IllegalStateException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Path path0 = Paths.get(path+ori);
+		Path path1 = Paths.get(path+red);
+		Path path2 = Paths.get(path+green);
+		Path path3 = Paths.get(path+blue);
+		
+		
+		 Charset cs = StandardCharsets.UTF_8;
+		 System.out.println(path0);
+		List<String> XYZlist = new ArrayList<String>();
+		List<String> Redlist = new ArrayList<String>();
+		List<String> Greenlist = new ArrayList<String>();
+		List<String> Bluelist = new ArrayList<String>();
+		
+		uploadPath = path+ori;
+		
+		try {
+			
+			XYZlist = Files.readAllLines(path0,cs);
+			Redlist = Files.readAllLines(path1,cs);
+			Greenlist = Files.readAllLines(path2,cs);
+			Bluelist = Files.readAllLines(path3,cs);
+			
+			Iterator  XYZiter = XYZlist.iterator();
 
+			int i = 0; 
+			int XYZsize = XYZlist.size();
 
-			while(r>1920) {
+			while(XYZiter.hasNext()) {
 				
-				listTest.set(r,listTest.get(r).replaceAll("NaN", ""));
-				listTest.set(r,listTest.get(r).replaceAll("nan", ""));
-				listTest.set(r,listTest.get(r).replaceAll("\\r?\\n?\\s", ","));
-				r++;
-			}
+				XYZlist.set(i,XYZlist.get(i).replaceAll("NaN", ""));
+				XYZlist.set(i,XYZlist.get(i).replaceAll("nan", ""));
+				XYZlist.set(i,XYZlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Redlist.set(i,Redlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Greenlist.set(i,Greenlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Bluelist.set(i,Bluelist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				
+				if(i==(XYZsize-1)) {
+					XYZlist.set(i,XYZlist.get(i).replaceAll("NaN", ""));
+					XYZlist.set(i,XYZlist.get(i).replaceAll("nan", ""));
+					XYZlist.set(i,XYZlist.get(i).replaceAll("\\r?\\n?\\s", ","));
 
-		} catch (FileNotFoundException e) {
+					Redlist.set(i,Redlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Greenlist.set(i,Greenlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Bluelist.set(i,Bluelist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					break;
+				}else {
+					i++;
+					
+				}
+			}
+			
+
+		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO: handle exception
-		}			
-			
-		request.setAttribute("list", listTest);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return "test";
+		
+		request.setAttribute("list", XYZlist);
+		request.setAttribute("red", Redlist);
+		request.setAttribute("blue", Bluelist);
+		request.setAttribute("green", Greenlist);
+//		request.setAttribute("i", i);
+		
+		return "test3";
 	}
 	
 	@PostMapping(value="/test")
@@ -134,15 +227,69 @@ public class HomeController {
 		String blue = bmf.getOriginalFilename();
 		String green = gmf.getOriginalFilename();
 		
+		try {
+			mf.transferTo(new File(path+ori));
+			rmf.transferTo(new File(path+red));
+			gmf.transferTo(new File(path+green));
+			bmf.transferTo(new File(path+blue));
+		} catch (IllegalStateException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Path path0 = Paths.get(path+ori);
+		Path path1 = Paths.get(path+red);
+		Path path2 = Paths.get(path+green);
+		Path path3 = Paths.get(path+blue);
+		 Charset cs = StandardCharsets.UTF_8;
+		 System.out.println(path0);
+		List<String> XYZlist = new ArrayList<String>();
+		List<String> Redlist = new ArrayList<String>();
+		List<String> Greenlist = new ArrayList<String>();
+		List<String> Bluelist = new ArrayList<String>();
 		
 		
 		uploadPath = path+ori;
 		
 		try {
-			mf.transferTo((new File(uploadPath)));
-			rmf.transferTo((new File(path+red)));
-			bmf.transferTo((new File(path+blue)));
-			gmf.transferTo((new File(path+green)));
+			
+			String content = readFile(uploadPath, StandardCharsets.UTF_8);
+			XYZlist = Files.readAllLines(path0,cs);
+			Redlist = Files.readAllLines(path1,cs);
+			Greenlist = Files.readAllLines(path2,cs);
+			Bluelist = Files.readAllLines(path3,cs);
+			
+			Iterator  XYZiter = XYZlist.iterator();
+			
+			int i = 0; 
+			int XYZsize = XYZlist.size();
+	
+			while(XYZiter.hasNext()) {
+				XYZlist.set(i,XYZlist.get(i).replaceAll("NaN", "0"));
+				XYZlist.set(i,XYZlist.get(i).replaceAll("nan", "0"));
+				XYZlist.set(i,XYZlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Redlist.set(i,Redlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Greenlist.set(i,Greenlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Bluelist.set(i,Bluelist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				
+				if(i==(XYZsize-1)) {
+					XYZlist.set(i,XYZlist.get(i).replaceAll("NaN", "0"));
+					XYZlist.set(i,XYZlist.get(i).replaceAll("nan", "0"));
+					XYZlist.set(i,XYZlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Redlist.set(i,Redlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Greenlist.set(i,Greenlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Bluelist.set(i,Bluelist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					break;
+				}else {
+					i++;
+					
+				}
+			}
+	
+			System.out.println(XYZlist.get(0).length());
+
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -151,96 +298,113 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		
-		ArrayList<String> list = new ArrayList<String>();
-		ArrayList<String> list2 = new ArrayList<String>();
-		ArrayList<String> rlist = new ArrayList<String>();
-		ArrayList<String> glist = new ArrayList<String>();
-		ArrayList<String> blist = new ArrayList<String>();
-		File file = new File(uploadPath);
-		File redfile = new File(path+red);
-		File bluefile = new File(path+blue);
-		File greenfile = new File(path+green);
-		int i = 0;
-		int r = 0;
-		int g = 0;
-		int b = 0;
-		try {
-			FileReader filereader = new FileReader(file);
-			FileReader rfilereader = new FileReader(redfile);
-			FileReader gfilereader = new FileReader(greenfile);
-			FileReader bfilereader = new FileReader(bluefile);
-			BufferedReader bufreader = new BufferedReader(filereader);
-			BufferedReader rbufreader = new BufferedReader(rfilereader);
-			BufferedReader gbufreader = new BufferedReader(gfilereader);
-			BufferedReader bbufreader = new BufferedReader(bfilereader);
-			
-			String line = "";
-			String redline = "";
-			String greenline = "";
-			String blueline ="";
-			while((redline = rbufreader.readLine()) != null) {
-				rlist.add(redline);
-
-				rlist.set(r,rlist.get(r).replaceAll("\\r?\\n?\\s", ","));
-
-				r++;
-			}
-			rbufreader.close();
-			while((greenline = gbufreader.readLine()) != null) {
-				
-				
-				glist.add(greenline);
-				
-				
-				glist.set(g,glist.get(g).replaceAll("\\r?\\n?\\s", ","));
-
-				g++;
-				
-			}
-
-			gbufreader.close();
-			
-			while((blueline = bbufreader.readLine()) != null) {
-				
-				blist.add(blueline);
-				
-				
-				blist.set(b,blist.get(b).replaceAll("\\r?\\n?\\s", ","));
-
-				b++;
-				
-			}
-			bbufreader.close();
-			while((line = bufreader.readLine()) != null) {
-				
-				
-				list2.add(line);
-				
-				list2.set(i,list2.get(i).replaceAll("NaN", ""));
-				list2.set(i,list2.get(i).replaceAll("nan", ""));
-				list2.set(i,list2.get(i).replaceAll("\\r?\\n?\\s", ","));
-
-				i++;
-				
-			}
-			bufreader.close();
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO: handle exception
-		}			
 		
-		request.setAttribute("list", list2);
-		request.setAttribute("red", rlist);
-		request.setAttribute("blue", blist);
-		request.setAttribute("green", glist);
-		request.setAttribute("i", i);
-		
+		request.setAttribute("list", XYZlist);
+		request.setAttribute("red", Redlist);
+		request.setAttribute("blue", Bluelist);
+		request.setAttribute("green", Greenlist);
+//		request.setAttribute("i", i);
 		
 		
 		return "test5";
+	}
+	@GetMapping(value="/test7")
+	public String test7() {
+		
+		return "test7";
+	}
+	@PostMapping(value="/test7")
+	public String Ptest7(HttpServletRequest request,MultipartHttpServletRequest mre) {
+		String text = request.getParameter("output");
+		MultipartFile mf = mre.getFile("filename");
+		MultipartFile rmf = mre.getFile("red");
+		MultipartFile bmf = mre.getFile("blue");
+		MultipartFile gmf = mre.getFile("green");
+		String uploadPath = "";
+		String path = "D:\\"+"oin\\"+"uploadfile\\";
+		String ori = mf.getOriginalFilename();
+		String red = rmf.getOriginalFilename();
+		String blue = bmf.getOriginalFilename();
+		String green = gmf.getOriginalFilename();
+		
+		try {
+			mf.transferTo(new File(path+ori));
+			rmf.transferTo(new File(path+red));
+			gmf.transferTo(new File(path+green));
+			bmf.transferTo(new File(path+blue));
+		} catch (IllegalStateException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Path path0 = Paths.get(path+ori);
+		Path path1 = Paths.get(path+red);
+		Path path2 = Paths.get(path+green);
+		Path path3 = Paths.get(path+blue);
+		Charset cs = StandardCharsets.UTF_8;
+		System.out.println(path0);
+		List<String> XYZlist = new ArrayList<String>();
+		List<String> Redlist = new ArrayList<String>();
+		List<String> Greenlist = new ArrayList<String>();
+		List<String> Bluelist = new ArrayList<String>();
+		
+		uploadPath = path+ori;
+		
+		try {
+			
+			XYZlist = Files.readAllLines(path0,cs);
+			Redlist = Files.readAllLines(path1,cs);
+			Greenlist = Files.readAllLines(path2,cs);
+			Bluelist = Files.readAllLines(path3,cs);
+			
+			Iterator  XYZiter = XYZlist.iterator();
+			
+			int i = 0; 
+			int XYZsize = XYZlist.size();
+			
+			while(XYZiter.hasNext()) {
+				
+				XYZlist.set(i,XYZlist.get(i).replaceAll("NaN", "0"));
+				XYZlist.set(i,XYZlist.get(i).replaceAll("nan", "0"));
+				XYZlist.set(i,XYZlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Redlist.set(i,Redlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Greenlist.set(i,Greenlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				Bluelist.set(i,Bluelist.get(i).replaceAll("\\r?\\n?\\s", ","));
+				
+				if(i==(XYZsize-1)) {
+					XYZlist.set(i,XYZlist.get(i).replaceAll("NaN", "0"));
+					XYZlist.set(i,XYZlist.get(i).replaceAll("nan", "0"));
+					XYZlist.set(i,XYZlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Redlist.set(i,Redlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Greenlist.set(i,Greenlist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					Bluelist.set(i,Bluelist.get(i).replaceAll("\\r?\\n?\\s", ","));
+					break;
+				}else {
+					i++;
+					
+				}
+			}
+			
+			
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		request.setAttribute("list", XYZlist);
+		request.setAttribute("red", Redlist);
+		request.setAttribute("blue", Bluelist);
+		request.setAttribute("green", Greenlist);
+//		request.setAttribute("i", i);
+		
+		
+		return "test4";
 	}
 	@GetMapping(value = "test2")
 	public String test2() {
@@ -259,6 +423,11 @@ public class HomeController {
 		public String ptest11() {
 		
 		return "test11";
+	}
+	@GetMapping(value="test4")
+	public String test4() {
+		
+		return "test4";
 	}
 	@PostMapping(value = "test11")
 	public String test11(){
@@ -308,6 +477,13 @@ public class HomeController {
 		}
 		return image;
 	}
+	static String readFile(String path, Charset encoding) 
+			  throws IOException 
+			{
+			  byte[] encoded = Files.readAllBytes(Paths.get(path));
+			  return new String(encoded, encoding);
+			}
+	
 	
 	
 }
