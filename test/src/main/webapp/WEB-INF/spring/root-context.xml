@@ -47,11 +47,23 @@
 	</bean>
 
 
-	<!-- mybatis SqlSessionFactoryBean -->
+	<!-- MyBatis SQL 실행 클래스 -->
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
+		<property name="dataSource" ref="dataSource" />
+		<!-- 아래부분은 매핑할 xml파일이 있는 패키지경로를 설정한다. -->
+		<property name="typeAliasesPackage" value="spring.test" />
+		<property name="mapperLocations"
+			value="classpath:mybatis/*.xml" />
 	</bean>
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+	</bean>
+	<mybatis-spring:scan
+		base-package="spring.test.mapper" />
 
 
 

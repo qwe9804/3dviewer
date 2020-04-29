@@ -1,11 +1,20 @@
 package spring.test.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TestDTO {
 	  private int num;
 	  private String	content ;
 	  private String  filename  ;
+	  private MultipartFile filenameMF;
 	public int getNum() {
 		return num;
+	}
+	public MultipartFile getFilenameMF() {
+		return filenameMF;
+	}
+	public void setFilenameMF(MultipartFile filenameMF) {
+		this.filenameMF = filenameMF;
 	}
 	public void setNum(int num) {
 		this.num = num;
@@ -15,7 +24,8 @@ public class TestDTO {
 	}
 	@Override
 	public String toString() {
-		return "TestDTO [num=" + num + ", content=" + content + ", filename=" + filename + "]";
+		return "TestDTO [num=" + num + ", content=" + content + ", filename=" + filename + ", filenameMF=" + filenameMF
+				+ "]";
 	}
 	public void setContent(String content) {
 		this.content = content;

@@ -6,8 +6,10 @@ import java.util.Map;
 import spring.test.dto.TestDTO;
 
 public interface MemberMapper {
-
+  
+	TestDTO read(int num);
+	int create (TestDTO dto);
 	
+	List<TestDTO> list();
 	
-
 }

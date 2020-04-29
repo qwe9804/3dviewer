@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.test.mapper.TestMapper">
+<mapper namespace="spring.test.mapper.MemberMapper">
 
+<select id="read" parameterType="int" resultType="TestDTO">
+select num, content, filename
+from TestTable
+where num = #{num}
+</select>
 
+<insert id="create" parameterType="TestDTO" >
+insert into TestTable(content,filename)
+values(
+		 #{content}, 
+		 #{filename}
+		 )
+</insert>
 
+<select id="list"  resultType="TestDTO">
+select num,content,filename
+from TestTable
+</select>
 
 </mapper>
