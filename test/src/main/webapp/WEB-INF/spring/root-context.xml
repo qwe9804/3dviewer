@@ -40,10 +40,10 @@
 		<property name="driverClassName"
 			value="com.mysql.jdbc.Driver"></property>
 		<property name="url"
-			value="jdbc:mysql://35.201.252.133:3306/haanvision?useSSL=false">
+			value="jdbc:mysql://database-1.ccu8emku5ku4.ap-northeast-2.rds.amazonaws.com/test?useSSL=false">
 		</property>
-		<property name="username" value="root" />
-		<property name="password" value="haan" />
+		<property name="username" value="admin" />
+		<property name="password" value="HAANVISION" />
 	</bean>
 
 

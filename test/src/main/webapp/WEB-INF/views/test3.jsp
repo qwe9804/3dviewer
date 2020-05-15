@@ -1,3 +1,9 @@
+
+<%@page import="com.amazonaws.services.s3.model.S3ObjectInputStream"%>
+<%@page import="com.amazonaws.services.s3.model.S3Object"%>
+<%@page import="com.amazonaws.auth.profile.ProfileCredentialsProvider"%>
+<%@page import="com.amazonaws.services.s3.AmazonS3ClientBuilder"%>
+<%@page import="com.amazonaws.services.s3.AmazonS3"%>
 <%@page import="com.google.cloud.storage.BlobId"%>
 <%@page import="com.google.cloud.storage.Blob"%>
 <%@page import="com.google.cloud.storage.StorageOptions"%>
@@ -10,25 +16,44 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-String jsonPath = "D:\\GCP\\woven-arcadia-275102-b91e1cf60783.json";
-Credentials credentials;
+// String jsonPath = "D:\\GCP\\woven-arcadia-275102-b91e1cf60783.json";
 
-credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath));
+// Credentials credentials;
 
-Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId("woven-arcadia-275102")
-		.build().getService();
-String bucketName = "haanstorage2";
+// credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath));
 
-Blob blobZ = storage.get(BlobId.of(bucketName, "3d(64).txt"));
-Blob blobALL = storage.get(BlobId.of(bucketName, "ALL2.txt"));
+// Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId("woven-arcadia-275102")
+// 		.build().getService();
+// String bucketName = "haanstorage2";
 
-String Z = new String(blobZ.getContent());
-String ALL = new String(blobALL.getContent());
+// Blob blobZ = storage.get(BlobId.of(bucketName, "3d(64).txt"));
+// Blob blobALL = storage.get(BlobId.of(bucketName, "ALL2.txt"));
+
+// String Z = new String(blobZ.getContent());
+// String ALL = new String(blobALL.getContent());
 
 
-Z = Z.replaceAll("NaN", "0");
-Z = Z.replaceAll("\\r?\\n?\\s", ",");
-ALL = ALL.replaceAll("\\r?\\n?\\s", ",");
+// Z = Z.replaceAll("NaN", "0");
+// Z = Z.replaceAll("\\r?\\n?\\s", ",");
+// ALL = ALL.replaceAll("\\r?\\n?\\s", ",");
+		String clientRegion = "ap-northeast-2";
+		String bucketName = "haanstorage";
+		String keyName = "3d(64).txt";
+		AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+		.withCredentials(new ProfileCredentialsProvider()).withRegion(clientRegion).build();
+		
+		System.out.println(s3Client.doesBucketExistV2(bucketName));
+		boolean flag = s3Client.doesBucketExistV2(bucketName);
+		
+		S3Object o = s3Client.getObject(bucketName,keyName);
+		S3ObjectInputStream s3is = o.getObjectContent();
+		String Z = s3Client.getObjectAsString(bucketName, keyName);
+		String ALL = s3Client.getObjectAsString(bucketName, "ALL2.txt");
+		
+		Z = Z.replaceAll("NaN", "0");
+		ALL = ALL.replaceAll("\\r?\\n?\\s", ",");
+		ALL = ALL.replaceAll("\\r?\\n?\\s", ",");
+		
 %>
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
@@ -36,10 +61,11 @@ ALL = ALL.replaceAll("\\r?\\n?\\s", ",");
 <head>
 <title>3D Viewer</title>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <script src="${root }/js/three.js"></script>
 <script src="${root }/js/TrackballControls.js"></script>
 <script src="${root }/js/dat.gui.js"></script>
+    <link rel="stylesheet" href="${root}/DermaMirror_files/mobile_style.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <body>

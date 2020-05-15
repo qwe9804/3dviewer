@@ -1,4 +1,8 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath }" />
 <!-- saved from url=(0038)http://dermamirror.co.kr/analytics.jsp -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>DermaMirror</title>
@@ -6,24 +10,24 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="description" content="당신의 피부를 생각하는 더마미러">
     <meta name="keywords" content="더마미러">
-    <link rel="stylesheet" href="./DermaMirror_files/mobile_style.css">
-    <link rel="stylesheet" href="./DermaMirror_files/jquery-ui.css">
+    <link rel="stylesheet" href="${root}/DermaMirror_files/mobile_style.css">
+    <link rel="stylesheet" href="${root}/DermaMirror_files/jquery-ui.css">
     
-    <script src="./DermaMirror_files/front.lib.js.다운로드"></script>
-    <script src="./DermaMirror_files/ajax.common.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.bpopup.min.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/front.lib.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/ajax.common.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.bpopup.min.js.다운로드"></script>
     
-    <link rel="stylesheet" href="./DermaMirror_files/style.css">
-    <link rel="stylesheet" href="./DermaMirror_files/grid.css">
+    <link rel="stylesheet" href="${root}/DermaMirror_files/style.css">
+    <link rel="stylesheet" href="${root}/DermaMirror_files/grid.css">
 </head>
 <body style="">
 <section id="subcon">
 	<div class="conWrap center">
     	<a href="http://dermamirror.co.kr/main.jsp" class="btn_back">
-		<img src="./DermaMirror_files/btn-prev.png" width="12" alt=""></a>
+		<img src="${root}/DermaMirror_files/btn-prev.png" width="12" alt=""></a>
   		<h4 class="sub-title white-text">분석결과</h4>
 		<a href="http://dermamirror.co.kr/analytics.jsp#" class="btn_next _popupOpen" data-id="popupMenuOption">
-		<img src="./DermaMirror_files/btn-menu.png" width="12" alt=""></a>
+		<img src="${root}/DermaMirror_files/btn-menu.png" width="12" alt=""></a>
 	</div>
 <div class="popup_wrap transparent" id="popupMenuOption" style="display: none;">
 	<a href="http://dermamirror.co.kr/analytics.jsp#" class="btn-close _popupClose"></a>
@@ -42,13 +46,10 @@
             <li class="space20"></li>
         </ul>
         <ul>
-            <li class="left center">
-                
+        <li class="left center"></li>
+            <li>	<iframe src="http://192.168.0.107:8000/test/test3" width="480px" height="190px" frameborder="0" scrolling="no"></iframe>
             </li>
-            
-            <li class="right center">
-                
-            </li>
+           <li class="right center"></li>
         </ul>
 	</div>
 	<div class="top-15">
@@ -109,29 +110,29 @@
             
             <ul class="center">
                 <!--  <li><a href="#" class="center"><img src="images/pic_banner.jpg" width="100%" alt=""/></a></li> -->
-                <li><a href="http://dermamirror.co.kr/analytics.jsp#" class="center"><img src="./DermaMirror_files/saved_resource" width="100%" alt=""></a></li>
+                <li><a href="http://dermamirror.co.kr/analytics.jsp#" class="center"><img src="${root}/DermaMirror_files/saved_resource" width="100%" alt=""></a></li>
             </ul>
    
         </div>		
 	</div>
 </section>
-  <script src="./DermaMirror_files/front.common.js.다운로드"></script>
-  <script src="./DermaMirror_files/simplebar.js.다운로드"></script>
+  <script src="${root}/DermaMirror_files/front.common.js.다운로드"></script>
+  <script src="${root}/DermaMirror_files/simplebar.js.다운로드"></script>
 
-    <script src="./DermaMirror_files/jquery-2.1.4.min.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery-2.1.4.min.js.다운로드"></script>
 
-    <script src="./DermaMirror_files/plugins.js.다운로드"></script>
-    <script src="./DermaMirror_files/main.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/plugins.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/main.js.다운로드"></script>
     
     <!--  flot-chart js -->
-    <script src="./DermaMirror_files/excanvas.min.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.flot.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.flot.pie.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.flot.time.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.flot.stack.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.flot.resize.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.flot.crosshair.js.다운로드"></script>
-    <script src="./DermaMirror_files/jquery.flot.tooltip.min.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/excanvas.min.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.flot.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.flot.pie.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.flot.time.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.flot.stack.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.flot.resize.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.flot.crosshair.js.다운로드"></script>
+    <script src="${root}/DermaMirror_files/jquery.flot.tooltip.min.js.다운로드"></script>
     <!-- script src="assets/js/lib/flot-chart/flot-chart-init.js"></script -->
     <script type="text/javascript">
      

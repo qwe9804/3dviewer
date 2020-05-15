@@ -38,10 +38,19 @@
         <put-attribute name="title" value="회원 조희" ></put-attribute> 
         <put-attribute name="body" value="/WEB-INF/views/test7.jsp" /> 
 </definition>
+<definition name="/test10" extends="main"> 
+        <put-attribute name="title" value="회원 조희" ></put-attribute> 
+        <put-attribute name="body" value="/WEB-INF/views/test10.jsp" /> 
+</definition>
 
 <definition name="/test11" extends="main"> 
         <put-attribute name="title" value="회원 조희" ></put-attribute> 
         <put-attribute name="body" value="/WEB-INF/views/test11.jsp" /> 
+</definition>   
+
+<definition name="/test12" extends="main"> 
+        <put-attribute name="title" value="회원 조희" ></put-attribute> 
+        <put-attribute name="body" value="/WEB-INF/views/test12.jsp" /> 
 </definition>   
 
    

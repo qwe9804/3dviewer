@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -38,6 +39,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.ReadChannel;
@@ -82,6 +88,12 @@ public class HomeController {
 	public String test() {
 
 		return "test";
+	}
+	
+	@GetMapping(value = "/test12")
+	public String test12() {
+		
+		return "test12";
 	}
 
 	@GetMapping(value = "/test3")
@@ -393,7 +405,7 @@ public class HomeController {
 
 	@GetMapping(value = "test2")
 	public String test2() {
-
+	
 		return "test2";
 	}
 
@@ -429,6 +441,32 @@ public class HomeController {
 		
 		return "test9";
 	}
+	
+	@GetMapping(value = "test10")
+	public String test10 () {
+		String clientRegion = "ap-northeast-2";
+		String bucketName = "haanstorage";
+		String keyName = "3d(64).txt";
+		AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+		.withCredentials(new ProfileCredentialsProvider()).withRegion(clientRegion).build();
+		
+		System.out.println(s3Client.doesBucketExistV2(bucketName));
+		boolean flag = s3Client.doesBucketExistV2(bucketName);
+		
+		S3Object o = s3Client.getObject(bucketName,keyName);
+		S3ObjectInputStream s3is = o.getObjectContent();
+		String Z = s3Client.getObjectAsString(bucketName, keyName);
+		String ALL = s3Client.getObjectAsString(bucketName, "ALL2.txt");
+		
+		Z = Z.replaceAll("NaN", "0");
+		ALL = ALL.replaceAll("\\r?\\n?\\s", ",");
+		ALL = ALL.replaceAll("\\r?\\n?\\s", ",");
+		
+		
+		
+		
+		return "test3";
+		}
 
 	@PostMapping(value = "test11")
 	public String test11() {
@@ -463,7 +501,7 @@ public class HomeController {
 
 		return "test11";
 	}
-
+	
 	public static BufferedImage loadImage(String url) {
 		BufferedImage image = null;
 
