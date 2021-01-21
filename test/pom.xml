@@ -94,13 +94,13 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.6</version>
+			<version>2.9.10.7</version>
 		</dependency>
 		<!-- XML 형식 변환 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.6</version>
+			<version>2.9.10.7</version>
 		</dependency>
 		<!-- fileupload setting -->
 		<dependency>
